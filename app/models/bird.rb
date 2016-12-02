@@ -7,6 +7,8 @@ class Bird
   field :visible, type: Boolean, default: false
 
   validates :name, :presence => true, uniqueness: true
+  validates :family, :presence => true
+  validates :continents, :presence => true
 
   scope :visible, -> { where(visible: true)}
 end
