@@ -24,4 +24,20 @@ class BirdsController < ApplicationController
   def destroy
   end
 
+  private
+  def bird_attrs
+    params.require(:birds).permit(:name, :family, :added, :visible, :continents => [])
+  end
+
+  def required(params, *lst)
+    blanks = lst - lst.reject {|x| params[x] == "" or params[x].nil? }
+    if blanks.empty?
+      parameters = lst.map {|x| params[x] }
+      parameters.count == 1 ? parameters.first : parameters
+    else
+      raise "Fields cannot be empty #{blanks}"
+    end
+  end
+
+
 end
