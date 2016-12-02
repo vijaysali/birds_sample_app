@@ -3,8 +3,8 @@ class Bird
   field :name, type: String
   field :family, type: String
   field :continents, type: Array
-  field :added, type: String
-  field :visible, type: Boolean
+  field :added, type: DateTime, default: DateTime.now
+  field :visible, type: Boolean, default: false
 
   validates :name, :presence => true, uniqueness: true
 
