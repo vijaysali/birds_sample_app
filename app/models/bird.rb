@@ -5,4 +5,7 @@ class Bird
   field :continents, type: Array
   field :added, type: String
   field :visible, type: Boolean
+
+  validates :name, :presence => true
+
 end
