@@ -6,7 +6,7 @@ class Bird
   field :added, type: String
   field :visible, type: Boolean
 
-  validates :name, :presence => true
+  validates :name, :presence => true, uniqueness: true
 
   scope :visible, -> { where(visible: true)}
 end
