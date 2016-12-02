@@ -8,4 +8,5 @@ class Bird
 
   validates :name, :presence => true
 
+  scope :visible, -> { where(visible: true)}
 end
