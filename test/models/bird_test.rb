@@ -18,6 +18,7 @@ class BirdTest < ActiveSupport::TestCase
 
     assert_equal true, bird.save!
     assert_equal false, bird.visible
+    assert_not_nil true, bird.added
     input_value.map do |attr_name, attr_value|
       assert_equal attr_value, bird.send(attr_name)
     end
@@ -46,4 +47,23 @@ class BirdTest < ActiveSupport::TestCase
     end
   end
 
+  # Try to set string value to continents, it shoudl be an array
+  def test_set_string_to_continents
+    input_value = {name: "test_bird", continents: @continents.sample, family: @families.sample}
+
+    assert_raises Mongoid::Errors::InvalidValue do
+      bird = Bird.new(input_value)
+      bird.save!
+    end
+  end
+
+  # Failing to provide required fields raises exception
+  def test_required_parameters
+    input_value = {name: "test_bird" }
+    bird = Bird.new(input_value)
+    assert_raises Mongoid::Errors::Validations do
+      bird.save!
+      bird
+    end
+  end
 end
