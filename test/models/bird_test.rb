@@ -66,4 +66,20 @@ class BirdTest < ActiveSupport::TestCase
       bird
     end
   end
+
+  def test_get_birds
+    # visible birds
+    visible_birds = 1.upto(4).map do |value|
+      {name: "test_bird_#{value}", continents: @continents.sample(2), family: @families.sample, visible: true}
+    end
+
+    # non visible birds
+    non_visible_birds = 1.upto(4).map do |value|
+      {name: "non_visible_bird_#{value}", continents: @continents.sample(2), family: @families.sample, visible: false}
+    end
+
+    Bird.create(visible_birds + non_visible_birds)
+    assert_equal visible_birds.count, Bird.visible.count
+    assert_equal non_visible_birds.count, (Bird.all.to_a.count - Bird.visible.count)
+  end
 end
