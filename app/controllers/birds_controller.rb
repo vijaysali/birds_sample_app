@@ -19,6 +19,12 @@ class BirdsController < ApplicationController
   end
 
   def show
+    bird = Bird.find(params[:id])
+    if bird.nil?
+      render json: {data: "No value found"}
+    else
+      render json: bird
+    end
   end
 
   def destroy
