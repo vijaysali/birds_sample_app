@@ -17,8 +17,9 @@ class Api::V1::BirdsControllerTest < ActionController::TestCase
 
   def test_index
     get "index"
-    assert_equal Array, json.class
-    assert_equal [], json
+    assert_equal Array, json["data"].class
+    assert_equal [], json["data"]
+    assert_equal false, json["status"]
     input_value = [
       {name: "test_bird", continents: @continents.sample(2), family: @families.sample, visible: true},
       {name: "test_bird1", continents: @continents.sample(2), family: @families.sample, visible: true},
@@ -56,4 +57,10 @@ class Api::V1::BirdsControllerTest < ActionController::TestCase
     post "create", {birds: {name: "test_bird", family: @families.sample, continents: @continents.sample(3), visible: true}}
     assert_equal 1, Bird.count
   end
+
+  def test_create_negative
+    post "create", {birds: {name: "test_bird" }}
+    assert_equal 0, Bird.count
+  end
+
 end
