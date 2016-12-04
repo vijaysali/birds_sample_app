@@ -51,4 +51,9 @@ class Api::V1::BirdsControllerTest < ActionController::TestCase
     delete "destroy", id: bird.id
     assert_equal 0, Bird.all.count
   end
+
+  def test_create
+    post "create", {birds: {name: "test_bird", family: @families.sample, continents: @continents.sample(3), visible: true}}
+    assert_equal 1, Bird.count
+  end
 end
