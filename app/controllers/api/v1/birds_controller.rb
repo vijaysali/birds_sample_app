@@ -1,9 +1,9 @@
 class Api::V1::BirdsController < ApplicationController
-
+  # CRUD- operations for bird model.
   def index
     birds = Bird.visible
     if birds.blank?
-      show_invalid_response(false, [], "No data found")
+      show_invalid_response(message: "No data found", status: 404)
     else
       render json: birds, each_serializer: BirdSerializer
     end
@@ -16,27 +16,29 @@ class Api::V1::BirdsController < ApplicationController
       bird_object = Bird.new(bird_attrs)
       bird_object.save!
       render json: bird_object
-    rescue Mongoid::Errors::Validations, StandardError => e
-      show_invalid_response(false, [], e.message)
+    rescue Mongoid::Errors::Validations
+      show_invalid_response(message: e.message, status: 412)
+    rescue StandardError => e
+      show_invalid_response(message: e.message, status: 404)
     end
   end
 
   def show
-    bird = Bird.find(params[:id])
-    if bird.nil?
-      show_invalid_response(false, [], "No data found")
-    else
+    begin
+      bird = Bird.find(params[:id])
       render json: bird
+    rescue StandardError => e
+      show_invalid_response(message: e.message, status: 404)
     end
   end
 
   def destroy
-    bird = Bird.find(params[:id])
-    if bird.nil?
-      show_invalid_response(false, [], "No data found")
-    else
+    begin
+      bird = Bird.find(params[:id])
       bird.destroy
       render json: {}
+    rescue StandardError => e
+      show_invalid_response(message: e.message, status: 404)
     end
   end
 
