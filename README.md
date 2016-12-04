@@ -1,13 +1,12 @@
 # birds_sample_app
 Getting started with mongodb and rails-api
 
-### Requirements
+### Setup
 	* Rails 4 and ruby-2.1.8 [ x86_64 ]
 	* Install rails-api (gem install rails-api)
 	* Install mongodb (port number: 27017)
 	* start server rails s
-	* Checkout more for route files.
-
+	* configure mongo-db settings in config/mongoid.yml
 
 ### Running test cases
 	* model test cases are in test/models
