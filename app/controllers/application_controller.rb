@@ -1,6 +1,9 @@
 class ApplicationController < ActionController::API
-  def show_response(status_code, object, message)
-    render json: { status: status_code, data: object, message: message}
+
+  # returns object and status code on bad request
+  def show_invalid_response(object)
+    payload = { message: object[:message] }
+    render json: payload, status: object[:status]
   end
 
   # checks the required parameters and raises exception if conditions doest not match
